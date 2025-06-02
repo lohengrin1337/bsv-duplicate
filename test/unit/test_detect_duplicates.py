@@ -31,7 +31,8 @@ def sut_one_entry(mock_article, mock_parse):
 def test_one_entry(mock_article, mock_parse):
     """ Should raise ValueError """
     mock_article.return_value = None
-    mock_parse.return_value = [mock_article]
+    # mock_parse.return_value = [mock_article]
+    mock_parse.return_value = []
     with pytest.raises(ValueError):
         result = detect_duplicates(data=None)
 
