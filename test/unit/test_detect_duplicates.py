@@ -35,7 +35,20 @@ def test_1(sut):
         (["key1", "key2", "key3"], ["doi1", "doi2", "doi3"])
     ]
 )
-def test_2-3(sut, article, key, doi):
+def test_2_3(sut, article, key, doi):
+    articles = [article(key, doi) for key, doi in zip(keys, dois)]
+    result = sut(articles)
+    assert result == []
+
+# TC 4-5
+@pytest.mark.parametrize(
+    "keys, dois",
+    [
+        (["key1", "key1"], ["doi1", "doi1"]),
+        (["key1", "key1", "key2"], ["doi1", "doi1", "doi2"])
+    ]
+)
+def test_4_5(sut, article, key, doi):
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
     result = sut(articles)
     assert result == []
