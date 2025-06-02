@@ -53,4 +53,4 @@ def test_4_5(sut, article, keys, dois):
     print(articles)
     result = sut(articles)
     print(result)
-    assert result[0].key == "key1"
+    assert result[0] == articles[0]
