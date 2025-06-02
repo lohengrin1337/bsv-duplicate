@@ -35,7 +35,7 @@ def test_1(sut):
         (["key1", "key2", "key3"], ["doi1", "doi2", "doi3"])
     ]
 )
-def test_2_3(sut, article, key, doi):
+def test_2_3(sut, article, keys, dois):
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
     result = sut(articles)
     assert result == []
@@ -48,7 +48,7 @@ def test_2_3(sut, article, key, doi):
         (["key1", "key1", "key2"], ["doi1", "doi1", "doi2"])
     ]
 )
-def test_4_5(sut, article, key, doi):
+def test_4_5(sut, article, keys, dois):
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
     result = sut(articles)
     assert result[0].key == "key1"
