@@ -50,5 +50,7 @@ def test_2_3(sut, article, keys, dois):
 )
 def test_4_5(sut, article, keys, dois):
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
+    print(articles)
     result = sut(articles)
+    print(result)
     assert result[0].key == "key1"
