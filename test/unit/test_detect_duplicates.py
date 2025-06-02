@@ -16,8 +16,8 @@ def sut():
 def article():
     def _article(key, doi):
         mock = MagicMock()
-        mock.key.return_value = key
-        mock.doi.return_value = doi
+        mock.key = key
+        mock.doi = doi
         return mock
     return _article
 
