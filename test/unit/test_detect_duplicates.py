@@ -22,9 +22,10 @@ def article():
     return _article
 
 # TC 1
-def test_1(sut):
+def test_1(sut, article):
+    articles = [article("key1", "doi1")]
     with pytest.raises(ValueError):
-        sut(["one article"])
+        sut(articles)
 
 
 # TC 2-3
@@ -50,7 +51,5 @@ def test_2_3(sut, article, keys, dois):
 )
 def test_4_5(sut, article, keys, dois):
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
-    print(articles)
     result = sut(articles)
-    print(result)
     assert result[0] in articles
