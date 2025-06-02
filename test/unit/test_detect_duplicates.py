@@ -23,11 +23,11 @@ def article():
     return _article
 
 # TC 1
-def test_1(sut, article):
+def test_less_than_2_articles(sut, article):
+    """ Should raise ValueError """
     articles = [article("key1", "doi1")]
     with pytest.raises(ValueError):
         sut(articles)
-
 
 # TC 2-3
 @pytest.mark.parametrize(
@@ -37,7 +37,8 @@ def test_1(sut, article):
         (["key1", "key2", "key3"], ["doi1", "doi2", "doi3"])
     ]
 )
-def test_2_3(sut, article, keys, dois):
+def test_no_duplicates(sut, article, keys, dois):
+    """ Should return empty list """
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
     result = sut(articles)
     assert result == []
@@ -50,7 +51,8 @@ def test_2_3(sut, article, keys, dois):
         (["key1", "key1", "key2"], ["doi1", "doi1", "doi2"])
     ]
 )
-def test_4_5(sut, article, keys, dois):
+def test_duplicates(sut, article, keys, dois):
+    """ Should return duplicated article """
     articles = [article(key, doi) for key, doi in zip(keys, dois)]
     result = sut(articles)
     assert result[0] in articles
