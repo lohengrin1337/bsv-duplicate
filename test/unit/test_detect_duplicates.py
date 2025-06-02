@@ -21,9 +21,19 @@ def sut_one_entry(mock_article, mock_parse):
 #     return detect_duplicates
 
 # TC 1
-def test_one_entry(sut_one_entry):
+# def test_one_entry(sut_one_entry):
+#     """ Should raise ValueError """
+#     with pytest.raises(ValueError):
+#         result = sut_one_entry(data=None)
+
+@patch('src.util.detector.parse', autospec=True)
+@patch('src.util.detector.Article', autospec=True)
+def test_one_entry(mock_article, mock_parse):
     """ Should raise ValueError """
+    mock_article.return_value = None
+    mock_parse.return_value = [mock_article]
     with pytest.raises(ValueError):
-        result = sut_one_entry(data=None)
+        result = detect_duplicates(data=None)
+
 
 # TC 2
