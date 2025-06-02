@@ -4,51 +4,38 @@ from src.util.detector import detect_duplicates
 
 pytestmark = pytest.mark.unit
 
-# @pytest.fixture
-# @patch('src.util.detector.parse', autospec=True)
-# @patch('src.util.detector.Article', autospec=True)
-# def sut_one_entry(mock_article, mock_parse):
-#     mock_article.return_value = None
-#     mock_parse.return_value = [mock_article]
-#     return detect_duplicates
-
 @pytest.fixture
 def sut():
-    def _sut(parse_return_val):
+    def _sut(articles):
         with patch('src.util.detector.parse', autospec=True) as mock_parse:
-            mock_parse.return_value = parse_return_val
+            mock_parse.return_value = articles
             return detect_duplicates(data=None)
     return _sut
+
+@pytest.fixture
+def article():
+    def _article(key, doi):
+        mock = MagicMock()
+        mock.key.return_value = key
+        mock.doi.return_value = doi
+        return mock
+    return _article
 
 # TC 1
 def test_1(sut):
     with pytest.raises(ValueError):
-        sut(["one bibtex entry"])
+        sut(["one article"])
 
 
-
-# @pytest.fixture
-# @patch('src.util.detector.parse', autospec=True)
-# @patch('src.util.detector.Article', autospec=True)
-# def sut_two_entries(mock_article, mock_parse):
-#     mock_article.return_value = None
-#     mock_parse.return_value = [mock_article, mock_article]
-#     return detect_duplicates
-
-# TC 1
-# def test_one_entry(sut_one_entry):
-#     """ Should raise ValueError """
-#     with pytest.raises(ValueError):
-#         result = sut_one_entry(data=None)
-
-# @patch('src.util.detector.parse', autospec=True)
-# @patch('src.util.detector.Article', autospec=True)
-# def test_one_entry(mock_article, mock_parse):
-#     """ Should raise ValueError """
-#     mock_article.return_value = None
-#     mock_parse.return_value = [mock_article]
-#     with pytest.raises(ValueError):
-#         result = detect_duplicates(data=None)
-
-
-# TC 2
+# TC 2-3
+@pytest.mark.parametrize(
+    "keys, dois",
+    [
+        (["key1", "key2"], ["doi1", "doi2"]),
+        (["key1", "key2", "key3"], ["doi1", "doi2", "doi3"])
+    ]
+)
+def test_2-3(sut, article, key, doi):
+    articles = [article(key, doi) for key, doi in zip(keys, dois)]
+    result = sut(articles)
+    assert result == []
