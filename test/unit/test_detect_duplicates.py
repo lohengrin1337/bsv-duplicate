@@ -1,6 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from src.util.detector import detect_duplicates
+from src.util.parser import Article
 
 pytestmark = pytest.mark.unit
 
@@ -15,7 +16,7 @@ def sut():
 @pytest.fixture
 def article():
     def _article(key, doi):
-        mock = MagicMock()
+        mock = MagicMock(spec=Article)
         mock.key = key
         mock.doi = doi
         return mock
